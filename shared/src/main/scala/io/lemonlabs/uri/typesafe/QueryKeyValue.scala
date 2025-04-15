@@ -225,7 +225,7 @@ sealed trait QueryKeyValueInstances {
     toSeq(a).toVector
 }
 
-object TraversableParams extends TraversableParamsInstances with TraversableParamsDeriving {
+object TraversableParams extends TraversableParamsConstructors with TraversableParamsInstances with TraversableParamsDeriving {
   /* ======================================================================== */
   /* THE FOLLOWING CODE IS MANAGED BY SIMULACRUM; PLEASE DO NOT EDIT!!!!      */
   /* ======================================================================== */
@@ -268,6 +268,11 @@ object TraversableParams extends TraversableParamsInstances with TraversablePara
   /* END OF SIMULACRUM-MANAGED CODE                                           */
   /* ======================================================================== */
 
+}
+
+sealed trait TraversableParamsConstructors {
+  def instance[A](toSeq: A => Seq[(String, Option[String])]): TraversableParams[A] =
+    (a: A) => toSeq(a)
 }
 
 sealed trait TraversableParamsInstances1 {

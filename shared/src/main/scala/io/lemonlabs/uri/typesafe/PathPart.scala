@@ -80,6 +80,11 @@ sealed trait PathPartInstances extends PathPartInstances1 {
   implicit def optionPathPart[A: PathPart]: PathPart[Option[A]] = a => a.map(PathPart[A].path).getOrElse("")
 }
 
+sealed trait TraversablePathPartsConstructors {
+  def instance[A](toSeq: A => Seq[String]): TraversablePathParts[A] =
+    (a: A) => toSeq(a)
+}
+
 sealed trait TraversablePathPartsInstances {
   implicit def singleTraversablePathParts[A](implicit tc: PathPart[A]): TraversablePathParts[A] =
     a => tc.splitPath(a)
@@ -104,7 +109,10 @@ sealed trait TraversablePathPartsInstances {
     toSeq(a).toVector
 }
 
-object TraversablePathParts extends TraversablePathPartsInstances with TraversablePathPartsDeriving {
+object TraversablePathParts
+    extends TraversablePathPartsConstructors
+    with TraversablePathPartsInstances
+    with TraversablePathPartsDeriving {
   /* ======================================================================== */
   /* THE FOLLOWING CODE IS MANAGED BY SIMULACRUM; PLEASE DO NOT EDIT!!!!      */
   /* ======================================================================== */
