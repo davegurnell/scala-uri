@@ -17,3 +17,6 @@ pubring.gpg
 secring.gpg
 
 .bsp/
+.metals/
+.idea/
+.vscode/
